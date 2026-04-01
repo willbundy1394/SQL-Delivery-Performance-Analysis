@@ -22,7 +22,7 @@ WITH CustomerSpend AS (
     GROUP BY customer_id
 )
 SELECT * FROM CustomerSpend
-WHERE total_spent > 500;
+WHERE total_spent > (SELECT AVG(total_spent) FROM CustomerSpend);
 ```
 ### Advanced Analytics Logic
 * **Window Functions:** Used `RANK() OVER` to benchmark restaurant performance within specific categories, allowing for fair "apples-to-apples" comparisons.
