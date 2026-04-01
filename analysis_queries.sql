@@ -34,3 +34,28 @@ WITH CustomerSpend AS (
 SELECT customer_id, total_spent
 FROM CustomerSpend
 WHERE total_spent > (SELECT AVG(total_spent) FROM CustomerSpend);
+
+-- 4. Restaurant Performance Ranking (Using Window Functions)
+-- Ranks restaurants within their category based on average delivery time.
+-- This helps identify top-performing vendors for potential promotional partnerships.
+SELECT 
+    r.restaurant_name,
+    r.category,
+    ROUND(AVG(d.delivery_time), 2) AS avg_speed,
+    RANK() OVER (PARTITION BY r.category ORDER BY AVG(d.delivery_time) ASC) AS category_rank
+FROM restaurants r
+JOIN deliveries d ON r.restaurant_id = d.restaurant_id
+GROUP BY r.restaurant_name, r.category;
+
+-- 5. Peak Hour Performance Analysis
+-- Identifies time blocks where delivery delays are most frequent.
+-- This data is essential for optimizing driver dispatch and managing customer expectations.
+SELECT 
+    EXTRACT(HOUR FROM order_time) AS hour_of_day,
+    COUNT(order_id) AS total_orders,
+    ROUND(AVG(delivery_time), 2) AS avg_delivery_time,
+    MAX(delivery_time) AS slowest_delivery
+FROM deliveries d
+JOIN orders o ON d.order_id = o.order_id
+GROUP BY hour_of_day
+ORDER BY avg_delivery_time DESC;
