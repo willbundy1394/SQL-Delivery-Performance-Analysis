@@ -23,3 +23,11 @@ WITH CustomerSpend AS (
 )
 SELECT * FROM CustomerSpend
 WHERE total_spent > 500;
+```
+### Advanced Analytics Logic
+* **Window Functions:** Used `RANK() OVER` to benchmark restaurant performance within specific categories, allowing for fair "apples-to-apples" comparisons.
+* **Time-Series Analysis:** Leveraged `EXTRACT(HOUR)` to identify peak-hour bottlenecks and delivery latency trends.
+* **Data Integrity:** Implemented multi-table `JOIN` logic to sync order timestamps with delivery completion data for accurate KPI tracking.
+### Business Insights
+* **Operational Efficiency:** Identified specific "Peak Hours" where delivery times increase by X%, suggesting a need for increased driver staffing during those windows.
+* **Vendor Management:** The Ranking Analysis highlights underperforming restaurants that consistently fall below their category average, providing data for partner coaching.
